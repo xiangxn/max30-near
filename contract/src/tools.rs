@@ -1,4 +1,4 @@
-use near_sdk::{collections::Vector, env};
+use near_sdk::{env, store::Vector};
 
 /// 将数组打乱的工具函数
 pub fn shuffle(arr: &mut Vec<u32>) {

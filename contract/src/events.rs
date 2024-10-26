@@ -39,14 +39,13 @@ impl Event<'_> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use near_sdk::test_utils::{self, test_env::alice};
-    use near_sdk::ONE_NEAR;
+    use near_sdk::{test_utils::{self, test_env::alice}, NearToken};
 
     #[test]
     fn test_betting() {
         Event::Betting {
             account_id: &alice(),
-            bet: &ONE_NEAR.to_string(),
+            bet: &NearToken::from_near(1).exact_amount_display(),
             time: &1600000000000,
         }
         .emit();

@@ -7,13 +7,12 @@ use events::Event;
 use types::*;
 
 // Find all our documentation at https://docs.near.org
-use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
-use near_sdk::collections::{UnorderedMap, UnorderedSet};
-use near_sdk::{env, near_bindgen, require, AccountId, Balance, PanicOnDefault, Promise, ONE_NEAR};
+use near_sdk::store::{IterableMap, IterableSet};
+use near_sdk::{env, near, require, AccountId, NearToken, PanicOnDefault, Promise};
 
-const STORAGE_COST: Balance = ONE_NEAR / 100; // 0.01 NEAR
-const MIN_BET: Balance = ONE_NEAR / 10; // 0.1 NEAR
-const MAX_BET: Balance = ONE_NEAR * 100; // 100 NEAR
+const STORAGE_COST: NearToken = NearToken::from_yoctonear(10_u128.pow(22)); // 0.01 NEAR
+const MIN_BET: NearToken = NearToken::from_yoctonear(10_u128.pow(23)); // 0.1 NEAR
+const MAX_BET: NearToken = NearToken::from_near(100); // 100 NEAR
 
 const WAIT_TIME_SEC: u64 = 60 * 1_000_000_000; // Seconds
 const READY_TIME_SEC: u64 = 5 * 1_000_000_000; // Seconds
@@ -22,30 +21,26 @@ const MAX_PARTNER_COUNT: u32 = 30;
 const FEE_RATE: f64 = 0.02;
 
 // Define the contract structure
-#[near_bindgen]
-#[derive(BorshDeserialize, BorshSerialize, PanicOnDefault)]
+#[near(contract_state)]
+#[derive(PanicOnDefault)]
 pub struct Max30 {
     global_state: GlobalState,
-    players: UnorderedMap<u32, Player>,
-    users: UnorderedSet<AccountId>,
+    players: IterableMap<u32, Player>,
+    users: IterableSet<AccountId>,
     owner_id: AccountId,
 }
 
 // Implement the contract structure
-#[near_bindgen]
+#[near]
 impl Max30 {
     #[init]
-    pub fn new(owner_id: AccountId) -> Self {
-        assert!(!env::state_exists(), "Already initialized");
-        assert!(
-            env::is_valid_account_id(owner_id.as_bytes()),
-            "The owner account ID is invalid"
-        );
+    #[private]
+    pub fn init(owner_id: AccountId) -> Self {
         Self {
             global_state: GlobalState {
                 round_num: 1,
                 partner_count: 0,
-                bet_total: 0,
+                bet_total: NearToken::from_near(0),
                 status: Status::Init,
                 max_partner_count: MAX_PARTNER_COUNT,
                 wait_time: 0,
@@ -53,17 +48,16 @@ impl Max30 {
                 lottery_time: 0,
                 fee_rate: FEE_RATE,
             },
-            players: UnorderedMap::new(StorageKey::Players),
-            users: UnorderedSet::new(StorageKey::Users),
+            players: IterableMap::new(StorageKey::Players),
+            users: IterableSet::new(StorageKey::Users),
             owner_id,
         }
     }
-
     // Start placing bets
     #[payable]
     pub fn dobet(&mut self) {
         require!(
-            self.global_state.status == Status::Init,
+            self.global_state.status < Status::Ready,
             "bet time has expired"
         );
         require!(
@@ -79,13 +73,19 @@ impl Max30 {
             require!(quantity <= MAX_BET, "bet too big");
             amount = quantity;
         } else {
-            require!(quantity >= MIN_BET + STORAGE_COST, "bet too small");
-            require!(quantity <= MAX_BET + STORAGE_COST, "bet too big");
-            self.users.insert(&account_id);
-            amount = quantity - STORAGE_COST;
+            require!(
+                quantity >= MIN_BET.saturating_add(STORAGE_COST),
+                "bet too small"
+            );
+            require!(
+                quantity <= MAX_BET.saturating_add(STORAGE_COST),
+                "bet too big"
+            );
+            self.users.insert(account_id.clone());
+            amount = quantity.saturating_sub(STORAGE_COST);
         }
         self.global_state.partner_count += 1;
-        self.global_state.bet_total += amount;
+        self.global_state.bet_total = self.global_state.bet_total.saturating_add(amount);
         let time = env::block_timestamp();
         let player = Player {
             id: self.global_state.partner_count,
@@ -95,17 +95,13 @@ impl Max30 {
             bet_time: time,
             digital: Vec::new(),
         };
-        self.players
-            .insert(&self.global_state.partner_count, &player);
+        self.players.insert(self.global_state.partner_count, player);
 
         // Update user winning rate
-        let keys: Vec<u32> = self.players.keys().collect();
-        for key in keys {
-            if let Some(mut player) = self.players.get(&key) {
-                player.win_rate = (player.bet as f64) / (self.global_state.bet_total as f64);
-                player.win_rate = (player.win_rate * 100.0).floor() / 100.0;
-                self.players.insert(&key, &player);
-            }
+        for (_, player) in self.players.iter_mut() {
+            let wr = (player.bet.as_yoctonear() as f64)
+                / (self.global_state.bet_total.as_yoctonear() as f64);
+            player.win_rate = (wr * 100.0).floor() / 100.0;
         }
 
         // trigger event
@@ -168,7 +164,7 @@ impl Max30 {
             // ));
             for i in 0..player.digital.len() {
                 if player.digital.get(i).unwrap() == &lottery {
-                    win_key = key;
+                    win_key = *key;
                     found_winner = true;
                     break;
                 }
@@ -186,10 +182,15 @@ impl Max30 {
         //     tools::vec_to_hex(&random_seed)
         // );
         // env::log_str(&msg);
-        let fr = self.global_state.fee_rate;
-        let fee = (fr * 100 as f64) as u128 * self.global_state.bet_total / 100;
-        let win_amount = self.global_state.bet_total - fee;
-        let winner = self.players.get(&win_key).unwrap().owner;
+        let fr = self.global_state.fee_rate * 100_f64;
+
+        let fee = self
+            .global_state
+            .bet_total
+            .saturating_mul(fr as u128)
+            .saturating_div(100);
+        let win_amount = self.global_state.bet_total.saturating_sub(fee);
+        let winner = self.players.get(&win_key).unwrap().owner.clone();
         // transfer to owner
         Promise::new(self.owner_id.clone()).transfer(fee);
         // transfer to winner
@@ -211,7 +212,7 @@ impl Max30 {
     // Reset state
     fn reset_state(&mut self) {
         self.global_state.status = Status::Init;
-        self.global_state.bet_total = 0;
+        self.global_state.bet_total = NearToken::from_near(0);
         self.global_state.partner_count = 0;
         self.global_state.wait_time = 0;
         self.global_state.ready_time = 0;
@@ -228,7 +229,7 @@ impl Max30 {
             diff -= player.win_rate;
         }
         if diff > 0.0 {
-            let mut player = self.players.get(&1).unwrap();
+            let player = self.players.get_mut(&1).unwrap();
             player.win_rate += diff;
         }
 
@@ -238,18 +239,15 @@ impl Max30 {
 
         // Assigning numbers to players
         let mut start: usize = 0;
-        let keys: Vec<u32> = self.players.keys().collect();
-        for key in keys {
-            if let Some(mut player) = self.players.get(&key) {
-                let end = start + (player.win_rate * 1000.0).floor() as usize;
-                for i in start..end {
-                    let value = arr[i];
-                    player.digital.push(value);
-                }
-                self.players.insert(&key, &player);
-                start = end;
+        for (_, player) in self.players.iter_mut() {
+            let end = start + (player.win_rate * 1000.0).floor() as usize;
+            for i in start..end {
+                let value = arr[i];
+                player.digital.push(value);
             }
+            start = end;
         }
+
         // for (_, player) in self.players.iter() {
         //     env::log_str(&format!(
         //         "owner: {}, win_rate: {}, digital: {}",
@@ -266,7 +264,8 @@ mod tests {
     use crate::{Max30, Status};
     use near_sdk::env::log_str;
     use near_sdk::test_utils::test_env::{alice, bob, carol};
-    use near_sdk::{test_utils::VMContextBuilder, testing_env, ONE_NEAR};
+    use near_sdk::NearToken;
+    use near_sdk::{test_utils::VMContextBuilder, testing_env};
 
     fn start_alice() -> Max30 {
         // initialize contract and deposit jackpod with 100 NEAR
@@ -276,7 +275,7 @@ mod tests {
             .signer_account_id(alice())
             .build();
         testing_env!(context.clone());
-        let contract = Max30::new(alice());
+        let contract = Max30::default();
         contract
     }
 
@@ -290,7 +289,7 @@ mod tests {
         let mut context = VMContextBuilder::new()
             .predecessor_account_id(bob())
             .signer_account_id(bob())
-            .attached_deposit(ONE_NEAR)
+            .attached_deposit(NearToken::from_near(1))
             .build();
         testing_env!(context.clone());
         contract.dobet();
@@ -299,13 +298,16 @@ mod tests {
         // Carol Betting
         context.predecessor_account_id = carol();
         context.signer_account_id = carol();
-        context.attached_deposit = ONE_NEAR;
+        context.attached_deposit = NearToken::from_near(1);
         testing_env!(context.clone());
         contract.dobet();
         assert_eq!(contract.get_player(2).win_rate, 0.5);
         assert_eq!(contract.get_state().partner_count, 2);
         assert_eq!(contract.get_state().status, Status::Wait);
-        assert_eq!(contract.get_state().bet_total, 1980000000000000000000000);
+        assert_eq!(
+            contract.get_state().bet_total,
+            NearToken::from_millinear(198)
+        );
 
         let time_msg = format!("block_timestamp: {}", context.block_timestamp);
         log_str(&time_msg);

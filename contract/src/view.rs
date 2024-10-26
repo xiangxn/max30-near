@@ -8,11 +8,11 @@ impl Max30 {
     }
 
     pub fn get_players(&self) -> Vec<Player> {
-        self.players.values().collect()
+        self.players.values().cloned().collect()
     }
 
     pub fn get_player(&self, key: u32) -> Player {
-        self.players.get(&key).unwrap()
+        self.players.get(&key).cloned().unwrap()
     }
 
     pub fn user_exists(&self, account_id: AccountId) -> bool {
