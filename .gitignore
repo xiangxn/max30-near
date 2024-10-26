@@ -34,3 +34,5 @@ dist
 .parcel-cache
 /contract/target
 /integration-tests/target
+
+**/Cargo.lock
