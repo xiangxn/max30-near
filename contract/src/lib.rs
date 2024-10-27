@@ -142,6 +142,8 @@ impl Max30 {
             self.global_state.ready_time <= env::block_timestamp(),
             "The ready time has not been reached yet"
         );
+
+        // Random winner
         let random_seed = env::random_seed();
         let num = u64::from_le_bytes([
             random_seed[0],
@@ -154,22 +156,15 @@ impl Max30 {
             random_seed[7],
         ]);
         let lottery: u32 = (num % 1000) as u32;
-        let mut win_key: u32 = 1;
-        let mut found_winner = false;
+        let mut win_key: i32 = -1;
         for (key, player) in self.players.iter() {
             // env::log_str(&format!(
             //     "owner: {}, digital: {}",
             //     player.owner,
             //     tools::vector_to_str(&player.digital)
             // ));
-            for i in 0..player.digital.len() {
-                if player.digital.get(i).unwrap() == &lottery {
-                    win_key = *key;
-                    found_winner = true;
-                    break;
-                }
-            }
-            if found_winner {
+            if player.digital.contains(&lottery) {
+                win_key = *key as i32;
                 break;
             }
         }
@@ -182,21 +177,31 @@ impl Max30 {
         //     tools::vec_to_hex(&random_seed)
         // );
         // env::log_str(&msg);
-        let fr = self.global_state.fee_rate * 100_f64;
 
+        // Cleaning the digital
+        for (_, player) in self.players.iter_mut() {
+            player.digital.clear();
+            player.digital.shrink_to_fit();
+        }
+
+        // Calculating Bonuses and Fees
+        let fr = self.global_state.fee_rate * 100_f64;
         let fee = self
             .global_state
             .bet_total
             .saturating_mul(fr as u128)
             .saturating_div(100);
         let win_amount = self.global_state.bet_total.saturating_sub(fee);
-        let winner = self.players.get(&win_key).unwrap().owner.clone();
+        let winner = self.players.get(&(win_key as u32)).unwrap().owner.clone();
         // transfer to owner
         Promise::new(self.owner_id.clone()).transfer(fee);
         // transfer to winner
         Promise::new(winner.clone()).transfer(win_amount);
+
+        // reset state data
         self.reset_state();
         self.global_state.round_num += 1;
+
         // trigger event
         Event::Winning {
             account_id: &winner,
@@ -275,7 +280,7 @@ mod tests {
             .signer_account_id(alice())
             .build();
         testing_env!(context.clone());
-        let contract = Max30::default();
+        let contract = Max30::init(alice());
         contract
     }
 
@@ -306,7 +311,7 @@ mod tests {
         assert_eq!(contract.get_state().status, Status::Wait);
         assert_eq!(
             contract.get_state().bet_total,
-            NearToken::from_millinear(198)
+            NearToken::from_millinear(1980)
         );
 
         let time_msg = format!("block_timestamp: {}", context.block_timestamp);

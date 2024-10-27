@@ -51,7 +51,7 @@ mod tests {
         .emit();
         assert_eq!(
             test_utils::get_logs()[0],
-            r#"EVENT_JSON:{"standard":"max30-operate","version":"1.0.0","event":"betting","data":[{"account_id":"alice.near","bet":"1000000000000000000000000","time":1600000000000}]}"#
+            r#"EVENT_JSON:{"data":[{"account_id":"alice.near","bet":"1 NEAR","time":1600000000000}],"event":"betting","standard":"max30-operate","version":"1.0.0"}"#
         );
     }
 }
