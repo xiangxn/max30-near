@@ -222,6 +222,7 @@ impl Max30 {
         self.global_state.wait_time = 0;
         self.global_state.ready_time = 0;
         self.global_state.lottery_time = 0;
+        self.players.clear();
     }
 
     fn do_ready(&mut self) {
