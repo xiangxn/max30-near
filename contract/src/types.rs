@@ -4,6 +4,7 @@ use near_sdk::{near, AccountId, BorshStorageKey, NearToken, Timestamp};
 #[near(serializers = [borsh, json])]
 pub(crate) enum StorageKey {
     Players,
+    Users
 }
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Debug)]

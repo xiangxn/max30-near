@@ -28,6 +28,7 @@ pub struct Max30 {
     players: IterableMap<AccountId, Player>,
     owner_id: AccountId,
     first_account: Option<AccountId>,
+    users: IterableMap<AccountId, bool>,
 }
 
 // Implement the contract structure
@@ -49,6 +50,7 @@ impl Max30 {
                 fee_rate: FEE_RATE,
             },
             players: IterableMap::new(StorageKey::Players),
+            users: IterableMap::new(StorageKey::Users),
             owner_id,
             first_account: None,
         }
@@ -110,6 +112,8 @@ impl Max30 {
                 / (self.global_state.bet_total.as_yoctonear() as f64);
             player.win_rate = (wr * 100.0).floor() / 100.0;
         }
+
+        self.users.insert(account_id.clone(), true);
 
         // trigger event
         Event::Betting {
