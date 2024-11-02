@@ -29,6 +29,7 @@ pub struct Max30 {
     owner_id: AccountId,
     first_account: Option<AccountId>,
     users: IterableMap<AccountId, bool>,
+    last_winner: Option<Winner>,
 }
 
 // Implement the contract structure
@@ -53,6 +54,7 @@ impl Max30 {
             users: IterableMap::new(StorageKey::Users),
             owner_id,
             first_account: None,
+            last_winner: None,
         }
     }
     // Start placing bets
@@ -68,7 +70,7 @@ impl Max30 {
         );
         let account_id = env::predecessor_account_id();
         let quantity = env::attached_deposit();
-        let exists = self.players.contains_key(&account_id);
+        let exists = self.users.contains_key(&account_id);
         let amount;
         if exists {
             require!(quantity >= MIN_BET, "bet too small");
@@ -85,13 +87,15 @@ impl Max30 {
             );
             amount = quantity.saturating_sub(STORAGE_COST);
         }
-        
+
         if self.global_state.partner_count == 0 {
             self.first_account = Some(account_id.clone());
         }
         self.global_state.bet_total = self.global_state.bet_total.saturating_add(amount);
         let time = env::block_timestamp();
-        if exists {
+
+        // Check if a bet has been placed in the current round
+        if self.players.contains_key(&account_id) {
             let player = self.players.get_mut(&account_id).unwrap();
             player.bet = player.bet.saturating_add(amount);
         } else {
@@ -181,12 +185,6 @@ impl Max30 {
             }
         }
 
-        // Cleaning the digital
-        for (_, player) in self.players.iter_mut() {
-            player.digital.clear();
-            player.digital.shrink_to_fit();
-        }
-
         if let Some(win) = winner {
             // Calculating Bonuses and Fees
             let fr = self.global_state.fee_rate * 100_f64;
@@ -196,6 +194,14 @@ impl Max30 {
                 .saturating_mul(fr as u128)
                 .saturating_div(100);
             let win_amount = self.global_state.bet_total.saturating_sub(fee);
+
+            self.last_winner = Some(Winner {
+                player: self.players.get(&win).unwrap().clone(),
+                amount: win_amount.clone(),
+                time: env::block_timestamp(),
+                fee: fee.clone(),
+            });
+
             // transfer to owner
             Promise::new(self.owner_id.clone()).transfer(fee);
             // transfer to winner
@@ -214,6 +220,7 @@ impl Max30 {
             }
             .emit();
         } else {
+            self.last_winner = None;
             self.reset_state();
             self.global_state.round_num += 1;
         }

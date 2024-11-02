@@ -21,4 +21,12 @@ impl Max30 {
         }
         return false;
     }
+
+    pub fn get_last_winner(&self) -> Option<&Winner> {
+        if self.last_winner.is_some() {
+            self.last_winner.as_ref()
+        } else {
+            None
+        }
+    }
 }

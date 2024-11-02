@@ -4,7 +4,7 @@ use near_sdk::{near, AccountId, BorshStorageKey, NearToken, Timestamp};
 #[near(serializers = [borsh, json])]
 pub(crate) enum StorageKey {
     Players,
-    Users
+    Users,
 }
 
 #[derive(Clone, PartialEq, Eq, PartialOrd, Debug)]
@@ -46,4 +46,12 @@ pub struct Player {
     pub bet: NearToken,
     pub bet_time: Timestamp,
     pub digital: Vec<u32>,
+}
+
+#[near(serializers = [borsh, json])]
+pub struct Winner {
+    pub player: Player,
+    pub amount: NearToken,
+    pub time: u64,
+    pub fee: NearToken,
 }
