@@ -7,7 +7,7 @@ use events::Event;
 use types::*;
 
 // Find all our documentation at https://docs.near.org
-use near_sdk::store::{IterableMap, IterableSet};
+use near_sdk::store::IterableMap;
 use near_sdk::{env, near, require, AccountId, NearToken, PanicOnDefault, Promise};
 
 const STORAGE_COST: NearToken = NearToken::from_yoctonear(10_u128.pow(22)); // 0.01 NEAR
@@ -25,9 +25,9 @@ const FEE_RATE: f64 = 0.02;
 #[derive(PanicOnDefault)]
 pub struct Max30 {
     global_state: GlobalState,
-    players: IterableMap<u32, Player>,
-    users: IterableSet<AccountId>,
+    players: IterableMap<AccountId, Player>,
     owner_id: AccountId,
+    first_account: Option<AccountId>,
 }
 
 // Implement the contract structure
@@ -49,8 +49,8 @@ impl Max30 {
                 fee_rate: FEE_RATE,
             },
             players: IterableMap::new(StorageKey::Players),
-            users: IterableSet::new(StorageKey::Users),
             owner_id,
+            first_account: None,
         }
     }
     // Start placing bets
@@ -66,7 +66,7 @@ impl Max30 {
         );
         let account_id = env::predecessor_account_id();
         let quantity = env::attached_deposit();
-        let exists = self.users.contains(&account_id);
+        let exists = self.players.contains_key(&account_id);
         let amount;
         if exists {
             require!(quantity >= MIN_BET, "bet too small");
@@ -81,21 +81,28 @@ impl Max30 {
                 quantity <= MAX_BET.saturating_add(STORAGE_COST),
                 "bet too big"
             );
-            self.users.insert(account_id.clone());
             amount = quantity.saturating_sub(STORAGE_COST);
         }
         self.global_state.partner_count += 1;
+        if self.global_state.partner_count == 1 {
+            self.first_account = Some(account_id.clone());
+        }
         self.global_state.bet_total = self.global_state.bet_total.saturating_add(amount);
         let time = env::block_timestamp();
-        let player = Player {
-            id: self.global_state.partner_count,
-            owner: account_id.clone(),
-            win_rate: 0.0,
-            bet: amount,
-            bet_time: time,
-            digital: Vec::new(),
-        };
-        self.players.insert(self.global_state.partner_count, player);
+        if exists {
+            let player = self.players.get_mut(&account_id).unwrap();
+            player.bet = player.bet.saturating_add(amount);
+        } else {
+            let player = Player {
+                id: self.global_state.partner_count,
+                owner: account_id.clone(),
+                win_rate: 0.0,
+                bet: amount,
+                bet_time: time,
+                digital: Vec::new(),
+            };
+            self.players.insert(account_id.clone(), player);
+        }
 
         // Update user winning rate
         for (_, player) in self.players.iter_mut() {
@@ -156,7 +163,7 @@ impl Max30 {
             random_seed[7],
         ]);
         let lottery: u32 = (num % 1000) as u32;
-        let mut win_key: i32 = -1;
+        let mut winner: Option<AccountId> = None;
         for (key, player) in self.players.iter() {
             // env::log_str(&format!(
             //     "owner: {}, digital: {}",
@@ -164,19 +171,10 @@ impl Max30 {
             //     tools::vector_to_str(&player.digital)
             // ));
             if player.digital.contains(&lottery) {
-                win_key = *key as i32;
+                winner = Some(key.clone());
                 break;
             }
         }
-        // let msg = format!(
-        //     "win_key: {} - {}, num: {}, lottery: {}, random_seed: {}",
-        //     win_key,
-        //     lottery,
-        //     num,
-        //     lottery,
-        //     tools::vec_to_hex(&random_seed)
-        // );
-        // env::log_str(&msg);
 
         // Cleaning the digital
         for (_, player) in self.players.iter_mut() {
@@ -184,32 +182,36 @@ impl Max30 {
             player.digital.shrink_to_fit();
         }
 
-        // Calculating Bonuses and Fees
-        let fr = self.global_state.fee_rate * 100_f64;
-        let fee = self
-            .global_state
-            .bet_total
-            .saturating_mul(fr as u128)
-            .saturating_div(100);
-        let win_amount = self.global_state.bet_total.saturating_sub(fee);
-        let winner = self.players.get(&(win_key as u32)).unwrap().owner.clone();
-        // transfer to owner
-        Promise::new(self.owner_id.clone()).transfer(fee);
-        // transfer to winner
-        Promise::new(winner.clone()).transfer(win_amount);
+        if let Some(win) = winner {
+            // Calculating Bonuses and Fees
+            let fr = self.global_state.fee_rate * 100_f64;
+            let fee = self
+                .global_state
+                .bet_total
+                .saturating_mul(fr as u128)
+                .saturating_div(100);
+            let win_amount = self.global_state.bet_total.saturating_sub(fee);
+            // transfer to owner
+            Promise::new(self.owner_id.clone()).transfer(fee);
+            // transfer to winner
+            Promise::new(win.clone()).transfer(win_amount);
 
-        // reset state data
-        self.reset_state();
-        self.global_state.round_num += 1;
+            // reset state data
+            self.reset_state();
+            self.global_state.round_num += 1;
 
-        // trigger event
-        Event::Winning {
-            account_id: &winner,
-            amount: &win_amount.to_string(),
-            time: &env::block_timestamp(),
-            fee: &fee.to_string(),
+            // trigger event
+            Event::Winning {
+                account_id: &win,
+                amount: &win_amount.to_string(),
+                time: &env::block_timestamp(),
+                fee: &fee.to_string(),
+            }
+            .emit();
+        } else {
+            self.reset_state();
+            self.global_state.round_num += 1;
         }
-        .emit();
     }
 }
 
@@ -223,6 +225,7 @@ impl Max30 {
         self.global_state.ready_time = 0;
         self.global_state.lottery_time = 0;
         self.players.clear();
+        self.first_account = None;
     }
 
     fn do_ready(&mut self) {
@@ -234,9 +237,14 @@ impl Max30 {
         for (_, player) in self.players.into_iter() {
             diff -= player.win_rate;
         }
-        if diff > 0.0 {
-            let player = self.players.get_mut(&1).unwrap();
-            player.win_rate += diff;
+        if self.first_account.is_some() {
+            if diff > 0.0 {
+                let player = self
+                    .players
+                    .get_mut(self.first_account.as_ref().unwrap())
+                    .unwrap();
+                player.win_rate += diff;
+            }
         }
 
         // Initializing an Array
@@ -253,15 +261,6 @@ impl Max30 {
             }
             start = end;
         }
-
-        // for (_, player) in self.players.iter() {
-        //     env::log_str(&format!(
-        //         "owner: {}, win_rate: {}, digital: {}",
-        //         player.owner,
-        //         player.win_rate,
-        //         tools::vector_to_str(&player.digital)
-        //     ));
-        // }
     }
 }
 
@@ -307,7 +306,7 @@ mod tests {
         context.attached_deposit = NearToken::from_near(1);
         testing_env!(context.clone());
         contract.dobet();
-        assert_eq!(contract.get_player(2).win_rate, 0.5);
+        assert_eq!(contract.get_player(carol()).win_rate, 0.5);
         assert_eq!(contract.get_state().partner_count, 2);
         assert_eq!(contract.get_state().status, Status::Wait);
         assert_eq!(

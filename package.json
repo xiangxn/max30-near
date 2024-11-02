@@ -14,10 +14,10 @@
     "test:integration": "npm run build:contract && cd integration-tests && cargo run --example integration-tests \"../contract/target/wasm32-unknown-unknown/release/hello_near.wasm\"",
     "postinstall": "cd frontend && npm install && cd .. && echo rs tests && echo rs contract"
   },
-  "devDependencies": {
-    "near-cli": "^3.3.0"
-  },
   "dependencies": {
     "global-agent": "^3.0.0"
+  },
+  "devDependencies": {
+    "near-cli-rs": "^0.15.1"
   }
 }

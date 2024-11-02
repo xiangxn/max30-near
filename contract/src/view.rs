@@ -11,11 +11,11 @@ impl Max30 {
         self.players.values().cloned().collect()
     }
 
-    pub fn get_player(&self, key: u32) -> Player {
+    pub fn get_player(&self, key: AccountId) -> Player {
         self.players.get(&key).cloned().unwrap()
     }
 
     pub fn user_exists(&self, account_id: AccountId) -> bool {
-        self.users.contains(&account_id)
+        self.players.contains_key(&account_id)
     }
 }
