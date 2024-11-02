@@ -196,10 +196,12 @@ impl Max30 {
             let win_amount = self.global_state.bet_total.saturating_sub(fee);
 
             self.last_winner = Some(Winner {
+                round_num: self.global_state.round_num,
                 player: self.players.get(&win).unwrap().clone(),
                 amount: win_amount.clone(),
                 time: env::block_timestamp(),
                 fee: fee.clone(),
+                lottery,
             });
 
             // transfer to owner

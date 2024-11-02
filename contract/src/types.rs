@@ -50,8 +50,10 @@ pub struct Player {
 
 #[near(serializers = [borsh, json])]
 pub struct Winner {
+    pub round_num: u64,
     pub player: Player,
     pub amount: NearToken,
     pub time: u64,
     pub fee: NearToken,
+    pub lottery: u32,
 }

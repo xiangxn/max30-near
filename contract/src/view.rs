@@ -22,11 +22,23 @@ impl Max30 {
         return false;
     }
 
+    pub fn get_winner(&self) -> Option<&Winner> {
+        if self.last_winner.is_some() {
+            let winner = self.last_winner.as_ref();
+            if winner.unwrap().round_num == self.global_state.round_num {
+                return winner;
+            } else {
+                return None;
+            }
+        } else {
+            return None;
+        }
+    }
+
     pub fn get_last_winner(&self) -> Option<&Winner> {
         if self.last_winner.is_some() {
-            self.last_winner.as_ref()
-        } else {
-            None
+            return self.last_winner.as_ref();
         }
+        None
     }
 }
