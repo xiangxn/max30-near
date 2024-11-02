@@ -16,6 +16,9 @@ impl Max30 {
     }
 
     pub fn user_exists(&self, account_id: AccountId) -> bool {
-        self.users.get(&account_id).unwrap().clone()
+        if let Some(exists) = self.users.get(&account_id) {
+            return *exists;
+        }
+        return false;
     }
 }

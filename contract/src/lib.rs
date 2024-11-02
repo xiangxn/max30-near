@@ -85,8 +85,8 @@ impl Max30 {
             );
             amount = quantity.saturating_sub(STORAGE_COST);
         }
-        self.global_state.partner_count += 1;
-        if self.global_state.partner_count == 1 {
+        
+        if self.global_state.partner_count == 0 {
             self.first_account = Some(account_id.clone());
         }
         self.global_state.bet_total = self.global_state.bet_total.saturating_add(amount);
@@ -95,6 +95,7 @@ impl Max30 {
             let player = self.players.get_mut(&account_id).unwrap();
             player.bet = player.bet.saturating_add(amount);
         } else {
+            self.global_state.partner_count += 1;
             let player = Player {
                 id: self.global_state.partner_count,
                 owner: account_id.clone(),
@@ -124,7 +125,7 @@ impl Max30 {
         .emit();
 
         // Processing status
-        if self.global_state.partner_count == 2 {
+        if self.players.len() == 2 {
             self.global_state.status = Status::Wait;
             self.global_state.wait_time = time + WAIT_TIME_SEC;
         } else if self.global_state.partner_count == self.global_state.max_partner_count {
