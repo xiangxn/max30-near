@@ -4,7 +4,7 @@ use near_sdk::near_bindgen;
 #[near_bindgen]
 impl Max30 {
     pub fn get_state(&self) -> GlobalState {
-        return self.global_state.clone();
+        return self.global.clone();
     }
 
     pub fn get_players(&self) -> Vec<Player> {
@@ -25,7 +25,7 @@ impl Max30 {
     pub fn get_winner(&self) -> Option<&Winner> {
         if self.last_winner.is_some() {
             let winner = self.last_winner.as_ref();
-            if winner.unwrap().round_num == self.global_state.round_num {
+            if winner.unwrap().round_num == self.global.round_num {
                 return winner;
             } else {
                 return None;

@@ -20,11 +20,20 @@ const READY_TIME_SEC: u64 = 5 * 1_000_000_000; // Seconds
 const MAX_PARTNER_COUNT: u32 = 30;
 const FEE_RATE: f64 = 0.02;
 
+const ERR_EXPIRED: &str = "Bet time has expired";
+const ERR_BET_TOO_SMALL: &str = "bet too small";
+const ERR_BET_TOO_BIG: &str = "bet too big";
+const ERR_ONLY_WAIT: &str = "Can only be called in Wait state";
+const ERR_ONLY_READY: &str = "Can only be called in Ready state";
+const ERR_READY_TOO_EARLY: &str = "The waiting time has not been reached yet";
+const ERR_LOTTERY_TOO_EARLY: &str = "The ready time has not been reached yet";
+const ERR_OVERCROWDED: &str = "The maximum number of partner has been reached";
+
 // Define the contract structure
 #[near(contract_state)]
 #[derive(PanicOnDefault)]
 pub struct Max30 {
-    global_state: GlobalState,
+    global: GlobalState,
     players: IterableMap<AccountId, Player>,
     owner_id: AccountId,
     first_account: Option<AccountId>,
@@ -39,7 +48,7 @@ impl Max30 {
     #[private]
     pub fn init(owner_id: AccountId) -> Self {
         Self {
-            global_state: GlobalState {
+            global: GlobalState {
                 round_num: 1,
                 partner_count: 0,
                 bet_total: NearToken::from_near(0),
@@ -60,39 +69,38 @@ impl Max30 {
     // Start placing bets
     #[payable]
     pub fn dobet(&mut self) {
+        require!(self.global.status < Status::Ready, ERR_EXPIRED);
+        if self.global.wait_time > 0 {
+            require!(self.global.wait_time > env::block_timestamp(), ERR_EXPIRED);
+        }
         require!(
-            self.global_state.status < Status::Ready
-                && self.global_state.wait_time > env::block_timestamp(),
-            "Bet time has expired"
-        );
-        require!(
-            self.global_state.partner_count < self.global_state.max_partner_count,
-            "The maximum number of partner has been reached"
+            self.global.partner_count < self.global.max_partner_count,
+            ERR_OVERCROWDED
         );
         let account_id = env::predecessor_account_id();
         let quantity = env::attached_deposit();
         let exists = self.users.contains_key(&account_id);
         let amount;
         if exists {
-            require!(quantity >= MIN_BET, "bet too small");
-            require!(quantity <= MAX_BET, "bet too big");
+            require!(quantity >= MIN_BET, ERR_BET_TOO_SMALL);
+            require!(quantity <= MAX_BET, ERR_BET_TOO_BIG);
             amount = quantity;
         } else {
             require!(
                 quantity >= MIN_BET.saturating_add(STORAGE_COST),
-                "bet too small"
+                ERR_BET_TOO_SMALL
             );
             require!(
                 quantity <= MAX_BET.saturating_add(STORAGE_COST),
-                "bet too big"
+                ERR_BET_TOO_BIG
             );
             amount = quantity.saturating_sub(STORAGE_COST);
         }
 
-        if self.global_state.partner_count == 0 {
+        if self.global.partner_count == 0 {
             self.first_account = Some(account_id.clone());
         }
-        self.global_state.bet_total = self.global_state.bet_total.saturating_add(amount);
+        self.global.bet_total = self.global.bet_total.saturating_add(amount);
         let time = env::block_timestamp();
 
         // Check if a bet has been placed in the current round
@@ -100,9 +108,9 @@ impl Max30 {
             let player = self.players.get_mut(&account_id).unwrap();
             player.bet = player.bet.saturating_add(amount);
         } else {
-            self.global_state.partner_count += 1;
+            self.global.partner_count += 1;
             let player = Player {
-                id: self.global_state.partner_count,
+                id: self.global.partner_count,
                 owner: account_id.clone(),
                 win_rate: 0.0,
                 bet: amount,
@@ -114,8 +122,8 @@ impl Max30 {
 
         // Update user winning rate
         for (_, player) in self.players.iter_mut() {
-            let wr = (player.bet.as_yoctonear() as f64)
-                / (self.global_state.bet_total.as_yoctonear() as f64);
+            let wr =
+                (player.bet.as_yoctonear() as f64) / (self.global.bet_total.as_yoctonear() as f64);
             player.win_rate = (wr * 100.0).floor() / 100.0;
         }
 
@@ -131,35 +139,29 @@ impl Max30 {
 
         // Processing status
         if self.players.len() == 1 {
-            self.global_state.round_num += 1;
+            self.global.round_num += 1;
         } else if self.players.len() == 2 {
-            self.global_state.status = Status::Wait;
-            self.global_state.wait_time = time + WAIT_TIME_SEC;
-        } else if self.global_state.partner_count == self.global_state.max_partner_count {
+            self.global.status = Status::Wait;
+            self.global.wait_time = time + WAIT_TIME_SEC;
+        } else if self.global.partner_count == self.global.max_partner_count {
             self.do_ready();
         }
     }
 
     pub fn ready(&mut self) {
+        require!(self.global.status == Status::Wait, ERR_ONLY_WAIT);
         require!(
-            self.global_state.status == Status::Wait,
-            "Can only be called in Wait state"
-        );
-        require!(
-            self.global_state.wait_time <= env::block_timestamp(),
-            "The waiting time has not been reached yet"
+            self.global.wait_time <= env::block_timestamp(),
+            ERR_READY_TOO_EARLY
         );
         self.do_ready();
     }
 
     pub fn lottery(&mut self) {
+        require!(self.global.status == Status::Ready, ERR_ONLY_READY);
         require!(
-            self.global_state.status == Status::Ready,
-            "Can only be called in Ready state"
-        );
-        require!(
-            self.global_state.ready_time <= env::block_timestamp(),
-            "The ready time has not been reached yet"
+            self.global.ready_time <= env::block_timestamp(),
+            ERR_LOTTERY_TOO_EARLY
         );
 
         // Random winner
@@ -185,16 +187,16 @@ impl Max30 {
 
         if let Some(win) = winner {
             // Calculating Bonuses and Fees
-            let fr = self.global_state.fee_rate * 100_f64;
+            let fr = self.global.fee_rate * 100_f64;
             let fee = self
-                .global_state
+                .global
                 .bet_total
                 .saturating_mul(fr as u128)
                 .saturating_div(100);
-            let win_amount = self.global_state.bet_total.saturating_sub(fee);
+            let win_amount = self.global.bet_total.saturating_sub(fee);
 
             self.last_winner = Some(Winner {
-                round_num: self.global_state.round_num,
+                round_num: self.global.round_num,
                 player: self.players.get(&win).unwrap().clone(),
                 amount: win_amount.clone(),
                 time: env::block_timestamp(),
@@ -228,19 +230,19 @@ impl Max30 {
 impl Max30 {
     // Reset state
     fn reset_state(&mut self) {
-        self.global_state.status = Status::Init;
-        self.global_state.bet_total = NearToken::from_near(0);
-        self.global_state.partner_count = 0;
-        self.global_state.wait_time = 0;
-        self.global_state.ready_time = 0;
-        self.global_state.lottery_time = 0;
+        self.global.status = Status::Init;
+        self.global.bet_total = NearToken::from_near(0);
+        self.global.partner_count = 0;
+        self.global.wait_time = 0;
+        self.global.ready_time = 0;
+        self.global.lottery_time = 0;
         self.players.clear();
         self.first_account = None;
     }
 
     fn do_ready(&mut self) {
-        self.global_state.status = Status::Ready;
-        self.global_state.ready_time = env::block_timestamp() + READY_TIME_SEC;
+        self.global.status = Status::Ready;
+        self.global.ready_time = env::block_timestamp() + READY_TIME_SEC;
 
         // Make up the difference in winning rate
         let mut diff = 1f64;
