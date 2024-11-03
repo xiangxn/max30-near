@@ -61,8 +61,9 @@ impl Max30 {
     #[payable]
     pub fn dobet(&mut self) {
         require!(
-            self.global_state.status < Status::Ready,
-            "bet time has expired"
+            self.global_state.status < Status::Ready
+                && self.global_state.wait_time > env::block_timestamp(),
+            "Bet time has expired"
         );
         require!(
             self.global_state.partner_count < self.global_state.max_partner_count,
@@ -129,7 +130,9 @@ impl Max30 {
         .emit();
 
         // Processing status
-        if self.players.len() == 2 {
+        if self.players.len() == 1 {
+            self.global_state.round_num += 1;
+        } else if self.players.len() == 2 {
             self.global_state.status = Status::Wait;
             self.global_state.wait_time = time + WAIT_TIME_SEC;
         } else if self.global_state.partner_count == self.global_state.max_partner_count {
@@ -174,11 +177,6 @@ impl Max30 {
         let lottery: u32 = (num % 1000) as u32;
         let mut winner: Option<AccountId> = None;
         for (key, player) in self.players.iter() {
-            // env::log_str(&format!(
-            //     "owner: {}, digital: {}",
-            //     player.owner,
-            //     tools::vector_to_str(&player.digital)
-            // ));
             if player.digital.contains(&lottery) {
                 winner = Some(key.clone());
                 break;
@@ -211,7 +209,6 @@ impl Max30 {
 
             // reset state data
             self.reset_state();
-            self.global_state.round_num += 1;
 
             // trigger event
             Event::Winning {
@@ -224,7 +221,6 @@ impl Max30 {
         } else {
             self.last_winner = None;
             self.reset_state();
-            self.global_state.round_num += 1;
         }
     }
 }
