@@ -1,0 +1,242 @@
+locale: en
+items:
+  af0d2F9nhFBgo21udgzyayD:
+    key: af0d2F9nhFBgo21udgzyayD
+    value: LogOut
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 18PW+pMqdCdqkdF+c1aXGv
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  1c04fw7m9xO4K/My2bm9WqU:
+    key: 1c04fw7m9xO4K/My2bm9WqU
+    value: Login
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 5fDs6TKEpJcopieTX/oxLz
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  e6978hznuJNyLs0HAoxjL1E:
+    key: e6978hznuJNyLs0HAoxjL1E
+    value: Already bet
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: f8mYWtYLtI/rO3/ycCwgrW
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  6e26bq5orxJ77sOfaTwj9wL:
+    key: 6e26bq5orxJ77sOfaTwj9wL
+    value: Cancel
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 9che6Fk7RCgIHPUTqB2rMK
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 50nMfV2IxD7bTF3ZpJXAbQ
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  394fdbtcy5BfpoXEiNSTNfT:
+    key: 394fdbtcy5BfpoXEiNSTNfT
+    value: Confirm
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 9c/yaTOCBKkJ7k6RhSNTP2
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 80uda03c1C9Y0ABArOmRT/
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: b9IEHsV19D2Y9qfuAAV2GR
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  b5456IzefxI3qMo5jfAQNUG:
+    key: b5456IzefxI3qMo5jfAQNUG
+    value: Online Players
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 5b/sf9bKhOq5CHLaLOu9G9
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  905adHZAlVAPKQqbJeCu1Tn:
+    key: 905adHZAlVAPKQqbJeCu1Tn
+    value: Player
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: fbZb2JRstA1ofOXmpWRZKc
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  c68bbyoh0FNebzdP+PbpJNf:
+    key: c68bbyoh0FNebzdP+PbpJNf
+    value: Bet
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 6dX/I9TAtIQakDDbQemNSo
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  e02f4Lk8a5DVaU3Z7q28Bme:
+    key: e02f4Lk8a5DVaU3Z7q28Bme
+    value: Win Rate
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: b2YVkU16dDf6WKgy99wvV2
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  a817f9HOcpBH57srb5JF6UQ:
+    key: a817f9HOcpBH57srb5JF6UQ
+    value: Amount
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 329xWHHZtLZ4pv+lXq++3p
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  efe50LcFyFEdYNjAZxu6jXA:
+    key: efe50LcFyFEdYNjAZxu6jXA
+    value: "-"
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 8dOVGoeNBLXLqo1p9tSUX2
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  b28a8vpVIVP5odgPGviuJuF:
+    key: b28a8vpVIVP5odgPGviuJuF
+    value: "0"
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: e2uxA0iWtF8JpraS3WCxkb
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 01toPNfBhK9L4ILiFH/x3K
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  986fdBGfsRF75MTAYZVHJqy:
+    key: 986fdBGfsRF75MTAYZVHJqy
+    value: "0.0"
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 98GZk1FlRCBJGsfTjh4BV9
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 09ng5ol25K2oIGDf64tn+W
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: b3C8LhfWlOcoxmhnuB7kYT
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 04LdodPs9OurlcdMbNR6Nn
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 37tkCSfNpDw4rICUDHLv+6
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  51adedOeApFP4DOxzAQe5F9:
+    key: 51adedOeApFP4DOxzAQe5F9
+    value: "30"
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: e6mlnpqaZHKKH32NKlNdDu
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  2b90dNnvDpChI90StYc8km8:
+    key: 2b90dNnvDpChI90StYc8km8
+    value: NEAR
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 53FVigUIJO/JKwpBipdDhz
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  e6c9eGPGH5PwIzRDtzgY5Wv:
+    key: e6c9eGPGH5PwIzRDtzgY5Wv
+    value: "%"
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 1djIkSgHRC7K6mkYvXxgT2
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  a2d49KJe7VKopbicm6UiY2o:
+    key: a2d49KJe7VKopbicm6UiY2o
+    value: "%?"
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 30J4ZhzfZGIIjtnJ4jhmvn
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  366aa/ia11EOo1i7EFNP0Qc:
+    key: 366aa/ia11EOo1i7EFNP0Qc
+    value: "?"
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: afFmZHiZBIwKqbW4D53XIb
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  35cfa/ZPXRJbqP69PFuYW7i:
+    key: 35cfa/ZPXRJbqP69PFuYW7i
+    value: "0.0000"
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 7bGfrXlORLN6vwX6eC07hk
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  bb3bcsC4e9KfJCBUNfClke3:
+    key: bb3bcsC4e9KfJCBUNfClke3
+    value: (
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: bfETn16jZMF63PhFBKIttg
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+  2a05e/A4aRJxq5nPO7+eQtj:
+    key: 2a05e/A4aRJxq5nPO7+eQtj
+    value: )
+    type: 2
+    isVariant: false
+    associations:
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: 52EdkabbBGHaPGCJCWqNbw
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+    _variants: []
+languageConfig:
+  bcp47Tag: en
+  translateFinished: 46
+  translateTotal: 95
+  compileFinished: 0
+  compileTotal: 21

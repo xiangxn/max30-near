@@ -6,7 +6,7 @@
     "scanOptions": [
       {
         "dirs": [
-          ""
+          "Scene"
         ],
         "extNames": [],
         "excludes": []
