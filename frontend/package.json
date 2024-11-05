@@ -1,6 +1,7 @@
 {
-  "name": "30MAX",
+  "name": "30max",
   "uuid": "29b91e21-36b3-4b5e-9e0b-17966fdbceb2",
+  "license": "MIT",
   "creator": {
     "version": "3.8.4",
     "registry": {

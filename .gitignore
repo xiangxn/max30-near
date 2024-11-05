@@ -36,3 +36,5 @@ dist
 /integration-tests/target
 
 **/Cargo.lock
+
+.env
