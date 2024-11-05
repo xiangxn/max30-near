@@ -2,6 +2,7 @@ import { _decorator, AudioClip, Color, Component, Graphics, Label, Sprite, Node,
 const { ccclass, property } = _decorator;
 
 import Config from './config';
+import l10n from 'db://localization-editor/core/l10n-manager';
 
 @ccclass('Roller')
 export class Roller extends Component {
@@ -172,7 +173,7 @@ export class Roller extends Component {
 
     public runRoller(winner = null, callback: Function = null) {
         this.hideClock();
-        this.showStatus("等待开奖...");
+        this.showStatus(l10n.t("waiting_for_the_draw"));
         if (this.action) {
             this.action.stop();
         }

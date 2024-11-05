@@ -1,8 +1,8 @@
-locale: en
+locale: en-US
 items:
   af0d2F9nhFBgo21udgzyayD:
     key: af0d2F9nhFBgo21udgzyayD
-    value: LogOut
+    value: Logout
     type: 2
     isVariant: false
     associations:
@@ -109,61 +109,6 @@ items:
         nodeUuid: 329xWHHZtLZ4pv+lXq++3p
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
-  efe50LcFyFEdYNjAZxu6jXA:
-    key: efe50LcFyFEdYNjAZxu6jXA
-    value: "-"
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 8dOVGoeNBLXLqo1p9tSUX2
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
-  b28a8vpVIVP5odgPGviuJuF:
-    key: b28a8vpVIVP5odgPGviuJuF
-    value: "0"
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: e2uxA0iWtF8JpraS3WCxkb
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 01toPNfBhK9L4ILiFH/x3K
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
-  986fdBGfsRF75MTAYZVHJqy:
-    key: 986fdBGfsRF75MTAYZVHJqy
-    value: "0.0"
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 98GZk1FlRCBJGsfTjh4BV9
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 09ng5ol25K2oIGDf64tn+W
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: b3C8LhfWlOcoxmhnuB7kYT
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 04LdodPs9OurlcdMbNR6Nn
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 37tkCSfNpDw4rICUDHLv+6
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
-  51adedOeApFP4DOxzAQe5F9:
-    key: 51adedOeApFP4DOxzAQe5F9
-    value: "30"
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: e6mlnpqaZHKKH32NKlNdDu
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
   2b90dNnvDpChI90StYc8km8:
     key: 2b90dNnvDpChI90StYc8km8
     value: NEAR
@@ -204,16 +149,6 @@ items:
         nodeUuid: afFmZHiZBIwKqbW4D53XIb
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
-  35cfa/ZPXRJbqP69PFuYW7i:
-    key: 35cfa/ZPXRJbqP69PFuYW7i
-    value: "0.0000"
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 7bGfrXlORLN6vwX6eC07hk
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
   bb3bcsC4e9KfJCBUNfClke3:
     key: bb3bcsC4e9KfJCBUNfClke3
     value: (
@@ -234,8 +169,22 @@ items:
         nodeUuid: 52EdkabbBGHaPGCJCWqNbw
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
+  waiting_players:
+    key: waiting_players
+    value: Waiting for players to join...
+    type: 2
+    isVariant: false
+    associations: []
+    _variants: []
+  waiting_for_the_draw:
+    key: waiting_for_the_draw
+    value: Waiting for the Draw...
+    type: 2
+    isVariant: false
+    associations: []
+    _variants: []
 languageConfig:
-  bcp47Tag: en
+  bcp47Tag: en-US
   translateFinished: 46
   translateTotal: 95
   compileFinished: 0

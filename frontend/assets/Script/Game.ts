@@ -1,7 +1,9 @@
-import { _decorator, Component, Label, Node, tween } from 'cc';
+import { _decorator, Component, Label, Node, tween, sys } from 'cc';
 import { Roller } from './Roller';
 import Config from './config';
 const { ccclass, property } = _decorator;
+
+import l10n from 'db://localization-editor/core/l10n-manager';
 
 import nearAPI from "./near-api-cocos.min.js";
 import BurstButton from './BurstButton';
@@ -63,6 +65,11 @@ export class Game extends Component {
     private waitTimeValue: number = 0;
 
     onLoad() {
+        if (sys.language === 'zh') {
+            l10n.checkLanguage('zh-Hans-CN');
+        } else {
+            l10n.checkLanguage('en-US');
+        }
         this.loginNode.getComponent(BurstButton).setCallback(this.login, this);
         this.wallet = new Wallet({ networkId: Config.NetworkId, createAccessKeyFor: Config.gameContract });
         this.betBtns.children.forEach((item, index) => {
@@ -137,7 +144,7 @@ export class Game extends Component {
                 // this.unschedule(this.refreshState);
                 this.clockTime.string = "0";
                 this.roller.hideClock();
-                this.roller.showStatus("等待玩家加入...");
+                this.roller.showStatus(l10n.t("waiting_players"));
                 this.schedule(this.refreshGame, 5);
                 break;
             case "Wait":

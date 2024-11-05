@@ -10,16 +10,6 @@ items:
         nodeUuid: 18PW+pMqdCdqkdF+c1aXGv
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
-  efe50LcFyFEdYNjAZxu6jXA:
-    key: efe50LcFyFEdYNjAZxu6jXA
-    value: ""
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 8dOVGoeNBLXLqo1p9tSUX2
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
   1c04fw7m9xO4K/My2bm9WqU:
     key: 1c04fw7m9xO4K/My2bm9WqU
     value: ""
@@ -30,51 +20,6 @@ items:
         nodeUuid: 5fDs6TKEpJcopieTX/oxLz
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
-  b28a8vpVIVP5odgPGviuJuF:
-    key: b28a8vpVIVP5odgPGviuJuF
-    value: ""
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: e2uxA0iWtF8JpraS3WCxkb
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 01toPNfBhK9L4ILiFH/x3K
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
-  986fdBGfsRF75MTAYZVHJqy:
-    key: 986fdBGfsRF75MTAYZVHJqy
-    value: ""
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 98GZk1FlRCBJGsfTjh4BV9
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 09ng5ol25K2oIGDf64tn+W
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: b3C8LhfWlOcoxmhnuB7kYT
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 04LdodPs9OurlcdMbNR6Nn
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 37tkCSfNpDw4rICUDHLv+6
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
-  51adedOeApFP4DOxzAQe5F9:
-    key: 51adedOeApFP4DOxzAQe5F9
-    value: ""
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: e6mlnpqaZHKKH32NKlNdDu
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
   566c08J/W9N0oHUpoOAqc30:
     key: 566c08J/W9N0oHUpoOAqc30
     value: ""
@@ -82,25 +27,7 @@ items:
     isVariant: false
     associations:
       - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 5aQvCTKBVMFKTcuS1sxcy3
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: d79SLNX5hAjLiKuJ+whUGL
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: d7cAHJZ89Bw4iXQ2uvHY+Q
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
         nodeUuid: b8TNejGd5HLI8HtzcYfIgx
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: df1N+LMQxGoLjv5OXZmTpw
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: e53YAAKUtE7KamutgAThqL
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 17QkWMJ0pBJINgPzQfTGT6
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
   2b90dNnvDpChI90StYc8km8:
@@ -182,16 +109,6 @@ items:
         nodeUuid: b9IEHsV19D2Y9qfuAAV2GR
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
-  35cfa/ZPXRJbqP69PFuYW7i:
-    key: 35cfa/ZPXRJbqP69PFuYW7i
-    value: ""
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 7bGfrXlORLN6vwX6eC07hk
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
   b5456IzefxI3qMo5jfAQNUG:
     key: b5456IzefxI3qMo5jfAQNUG
     value: ""
@@ -262,6 +179,19 @@ items:
         nodeUuid: 329xWHHZtLZ4pv+lXq++3p
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
+  waiting_players:
+    key: waiting_players
+    value: ""
+    type: 2
+    isVariant: false
+    associations: []
+    _variants: []
+  waiting_for_the_draw:
+    key: waiting_for_the_draw
+    value: ""
+    type: 2
+    isVariant: false
+    associations: []
 languageConfig:
   bcp47Tag: index
   translateFinished: 46
