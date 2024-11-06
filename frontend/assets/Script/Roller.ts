@@ -73,33 +73,29 @@ export class Roller extends Component {
         this.pointer.setRotationFromEuler(0, 0, 0);
     }
 
-    private setAngle(player) {
+    private setAngle(player, lottery) {
         console.log("this.players:", this.players)
         console.log("this.angles:", this.angles)
         let angle = 0;
-        let num_index = this.players.findIndex((p) => p.owner == player.owner);
+        let num_index = player.digital.findIndex((d) => d == lottery);
+        let index = this.players.findIndex((p) => p.owner == player.owner);
 
-        console.log("num_index:", num_index)
+        console.log("indexs:", index,num_index)
 
-        let prev = num_index == 0 ? 0 : this.angles[num_index - 1];
-        let cur = angle = this.angles[num_index];
+        let prev = index == 0 ? 0 : this.angles[index - 1];
+        let cur = angle = this.angles[index];
 
         console.log("cur-prev:", cur, prev)
-        // if (cur - prev < 6) { //居中
-        //     if (num_index == 0) {
-        //         angle = angle / 2;
-        //     } else {
-        //         angle = prev + (cur - prev) / 2;
-        //     }
-        // } else { //精准偏移
-        //     let offset = (angle - prev - 2) / player.digital.length * num_index;
-        //     if (offset == 0) offset = 1;
-        //     angle = prev + offset;
-        // }
-        if (num_index == 0) {
-            angle = angle / 2;
-        } else {
-            angle = prev + (cur - prev) / 2;
+        if (cur - prev < 6) { //居中
+            if (index == 0) {
+                angle = angle / 2;
+            } else {
+                angle = prev + (cur - prev) / 2;
+            }
+        } else { //精准偏移
+            let offset = (angle - prev - 2) / player.digital.length * num_index;
+            if (offset == 0) offset = 1;
+            angle = prev + offset;
         }
         return (angle + 90);
     }
@@ -180,7 +176,7 @@ export class Roller extends Component {
 
         let finalAngle = 0;
         if (winner) {
-            finalAngle = this.setAngle(winner.player);
+            finalAngle = this.setAngle(winner.player, winner.lottery);
             console.log("finalAngle:", finalAngle);
             this.playLast();
             this.pointer.setRotationFromEuler(0, 0, 0);

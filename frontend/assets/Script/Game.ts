@@ -3,7 +3,7 @@ import { Roller } from './Roller';
 import Config from './config';
 const { ccclass, property } = _decorator;
 
-import l10n from 'db://localization-editor/core/l10n-manager';
+import { l10n } from 'db://localization-editor/l10n';
 
 import nearAPI from "./near-api-cocos.min.js";
 import BurstButton from './BurstButton';
@@ -11,6 +11,8 @@ import { UserList } from './UserList';
 import { Bet } from './Bet';
 import Utils from './Utils';
 const { Wallet, formatNearAmount, createHash } = nearAPI;
+
+
 
 @ccclass('Game')
 export class Game extends Component {
@@ -26,9 +28,6 @@ export class Game extends Component {
 
     @property({ type: Node })
     private userList: Node = null;
-
-    @property({ type: Node })
-    private userInfo: Node = null;
 
     @property({ type: Node })
     private headInfo: Node = null;
@@ -65,11 +64,22 @@ export class Game extends Component {
     private waitTimeValue: number = 0;
 
     onLoad() {
-        if (sys.language === 'zh') {
-            l10n.checkLanguage('zh-Hans-CN');
+        let language: string;
+        if (sys.language == "zh") {
+            language = "zh-Hans-CN";
         } else {
-            l10n.checkLanguage('en-US');
+            language = "en-US";
         }
+        l10n.config({ fallbackLanguage: 'en-US', language });
+
+        console.log("sys.language:", language, l10n.currentLanguage)
+
+        if (l10n.currentLanguage != language) {
+            l10n.changeLanguage(language);
+        }
+
+        
+
         this.loginNode.getComponent(BurstButton).setCallback(this.login, this);
         this.wallet = new Wallet({ networkId: Config.NetworkId, createAccessKeyFor: Config.gameContract });
         this.betBtns.children.forEach((item, index) => {
@@ -125,9 +135,12 @@ export class Game extends Component {
         }
     }
 
-    private logOut() {
+    private async logOut() {
         console.log('退出？？？', this.currentAccount);
-        this.wallet.signOut();
+        await this.wallet.signOut().catch(err => {
+            console.log("logout:", err);
+        });
+
     }
 
     private login(tag: any, event: String, ...parms: any) {

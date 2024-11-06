@@ -1,7 +1,7 @@
 locale: en-US
 items:
-  af0d2F9nhFBgo21udgzyayD:
-    key: af0d2F9nhFBgo21udgzyayD
+  b3371gEM+NEnouEPBS27NyM:
+    key: b3371gEM+NEnouEPBS27NyM
     value: Logout
     type: 2
     isVariant: false
@@ -10,8 +10,8 @@ items:
         nodeUuid: 18PW+pMqdCdqkdF+c1aXGv
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
-  1c04fw7m9xO4K/My2bm9WqU:
-    key: 1c04fw7m9xO4K/My2bm9WqU
+  c3eebJcLMNA+px5XKBp/9eN:
+    key: c3eebJcLMNA+px5XKBp/9eN
     value: Login
     type: 2
     isVariant: false
@@ -20,8 +20,8 @@ items:
         nodeUuid: 5fDs6TKEpJcopieTX/oxLz
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
-  e6978hznuJNyLs0HAoxjL1E:
-    key: e6978hznuJNyLs0HAoxjL1E
+  a026a/62DdOlYJ+1S0G2flp:
+    key: a026a/62DdOlYJ+1S0G2flp
     value: Already bet
     type: 2
     isVariant: false
@@ -30,37 +30,8 @@ items:
         nodeUuid: f8mYWtYLtI/rO3/ycCwgrW
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
-  6e26bq5orxJ77sOfaTwj9wL:
-    key: 6e26bq5orxJ77sOfaTwj9wL
-    value: Cancel
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 9che6Fk7RCgIHPUTqB2rMK
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 50nMfV2IxD7bTF3ZpJXAbQ
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
-  394fdbtcy5BfpoXEiNSTNfT:
-    key: 394fdbtcy5BfpoXEiNSTNfT
-    value: Confirm
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 9c/yaTOCBKkJ7k6RhSNTP2
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 80uda03c1C9Y0ABArOmRT/
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: b9IEHsV19D2Y9qfuAAV2GR
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
-  b5456IzefxI3qMo5jfAQNUG:
-    key: b5456IzefxI3qMo5jfAQNUG
+  81cacT/6hpCFq9g581R+6s0:
+    key: 81cacT/6hpCFq9g581R+6s0
     value: Online Players
     type: 2
     isVariant: false
@@ -69,9 +40,9 @@ items:
         nodeUuid: 5b/sf9bKhOq5CHLaLOu9G9
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
-  905adHZAlVAPKQqbJeCu1Tn:
-    key: 905adHZAlVAPKQqbJeCu1Tn
-    value: Player
+  085952GZ6RDUZ5sF+D3aNwL:
+    key: 085952GZ6RDUZ5sF+D3aNwL
+    value: Players
     type: 2
     isVariant: false
     associations:
@@ -79,9 +50,9 @@ items:
         nodeUuid: fbZb2JRstA1ofOXmpWRZKc
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
-  c68bbyoh0FNebzdP+PbpJNf:
-    key: c68bbyoh0FNebzdP+PbpJNf
-    value: Bet
+  1bcb5VOdwVLiKPZIAzXII7j:
+    key: 1bcb5VOdwVLiKPZIAzXII7j
+    value: Bets
     type: 2
     isVariant: false
     associations:
@@ -89,9 +60,9 @@ items:
         nodeUuid: 6dX/I9TAtIQakDDbQemNSo
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
-  e02f4Lk8a5DVaU3Z7q28Bme:
-    key: e02f4Lk8a5DVaU3Z7q28Bme
-    value: Win Rate
+  99e41+UAx5C1rup6BRgSuSw:
+    key: 99e41+UAx5C1rup6BRgSuSw
+    value: WinRate
     type: 2
     isVariant: false
     associations:
@@ -99,8 +70,8 @@ items:
         nodeUuid: b2YVkU16dDf6WKgy99wvV2
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
-  a817f9HOcpBH57srb5JF6UQ:
-    key: a817f9HOcpBH57srb5JF6UQ
+  54e2dQLaQhIUZUNSN6XIdrm:
+    key: 54e2dQLaQhIUZUNSN6XIdrm
     value: Amount
     type: 2
     isVariant: false
@@ -109,64 +80,27 @@ items:
         nodeUuid: 329xWHHZtLZ4pv+lXq++3p
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
-  2b90dNnvDpChI90StYc8km8:
-    key: 2b90dNnvDpChI90StYc8km8
-    value: NEAR
+  394f5gM+pNAl695Fw5xMM5W:
+    key: 394f5gM+pNAl695Fw5xMM5W
+    value: Confirm
     type: 2
     isVariant: false
     associations:
       - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 53FVigUIJO/JKwpBipdDhz
+        nodeUuid: 80uda03c1C9Y0ABArOmRT/
+        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
+      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
+        nodeUuid: b9IEHsV19D2Y9qfuAAV2GR
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
-  e6c9eGPGH5PwIzRDtzgY5Wv:
-    key: e6c9eGPGH5PwIzRDtzgY5Wv
-    value: "%"
+  b75bbYMshhBqLjAAdiIEVTJ:
+    key: b75bbYMshhBqLjAAdiIEVTJ
+    value: Cancel
     type: 2
     isVariant: false
     associations:
       - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 1djIkSgHRC7K6mkYvXxgT2
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
-  a2d49KJe7VKopbicm6UiY2o:
-    key: a2d49KJe7VKopbicm6UiY2o
-    value: "%?"
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 30J4ZhzfZGIIjtnJ4jhmvn
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
-  366aa/ia11EOo1i7EFNP0Qc:
-    key: 366aa/ia11EOo1i7EFNP0Qc
-    value: "?"
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: afFmZHiZBIwKqbW4D53XIb
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
-  bb3bcsC4e9KfJCBUNfClke3:
-    key: bb3bcsC4e9KfJCBUNfClke3
-    value: (
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: bfETn16jZMF63PhFBKIttg
-        reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
-    _variants: []
-  2a05e/A4aRJxq5nPO7+eQtj:
-    key: 2a05e/A4aRJxq5nPO7+eQtj
-    value: )
-    type: 2
-    isVariant: false
-    associations:
-      - sceneUuid: 2d2f792f-a40c-49bb-a189-ed176a246e49
-        nodeUuid: 52EdkabbBGHaPGCJCWqNbw
+        nodeUuid: 50nMfV2IxD7bTF3ZpJXAbQ
         reference: 2d2f792f-a40c-49bb-a189-ed176a246e49
     _variants: []
   waiting_players:
@@ -185,7 +119,7 @@ items:
     _variants: []
 languageConfig:
   bcp47Tag: en-US
-  translateFinished: 46
-  translateTotal: 95
+  translateFinished: 39
+  translateTotal: 126
   compileFinished: 0
-  compileTotal: 21
+  compileTotal: 12
