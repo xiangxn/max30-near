@@ -80,7 +80,7 @@ export class Roller extends Component {
         let num_index = player.digital.findIndex((d) => d == lottery);
         let index = this.players.findIndex((p) => p.owner == player.owner);
 
-        console.log("indexs:", index,num_index)
+        console.log("indexs:", index, num_index)
 
         let prev = index == 0 ? 0 : this.angles[index - 1];
         let cur = angle = this.angles[index];
@@ -112,6 +112,7 @@ export class Roller extends Component {
         tween(this.winnerNode).delay(10).call(() => {
             console.log("callback:", new Date().getTime());
             this.winnerNode.active = false;
+            this.reset();
             if (callback) callback();
         }, this).start();
     }
@@ -205,6 +206,7 @@ export class Roller extends Component {
     private playOnce(startTime, endTime, loop = true) {
         if (this.audioSource && this.rollEffect) {
             this.audioSource.clip = this.rollEffect; // 设置音频片段
+            this.audioSource.volume = 1;
             this.audioSource.play(); // 播放音频
 
             // 在指定的时间后停止播放
