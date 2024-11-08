@@ -6,7 +6,7 @@
         "_value": true
       },
       "gfx-webgl": {
-        "_value": true
+        "_value": false
       },
       "gfx-webgl2": {
         "_value": true
@@ -113,16 +113,16 @@
         "_value": false
       },
       "spine": {
-        "_value": false
+        "_value": true
       },
       "dragon-bones": {
         "_value": false
       },
       "marionette": {
-        "_value": false
+        "_value": true
       },
       "procedural-animation": {
-        "_value": false
+        "_value": true
       },
       "custom-pipeline-post-process": {
         "_value": false
@@ -146,10 +146,12 @@
       "animation",
       "audio",
       "base",
-      "gfx-webgl",
       "gfx-webgl2",
       "legacy-pipeline",
+      "marionette",
+      "procedural-animation",
       "profiler",
+      "spine",
       "tween",
       "ui"
     ],

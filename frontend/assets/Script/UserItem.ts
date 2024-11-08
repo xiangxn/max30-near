@@ -2,10 +2,10 @@ import { _decorator, Component, Label, Sprite, Color } from 'cc';
 import config from './config';
 const { ccclass, property } = _decorator;
 
-import nearAPI from "./near-api-cocos.min.js";
+// import nearAPI from "./near-api-cocos.min.js";
 import Utils from './Utils';
 
-const { formatNearAmount } = nearAPI;
+// const { formatNearAmount } = nearAPI;
 
 @ccclass('UserItem')
 export class UserItem extends Component {
@@ -34,7 +34,7 @@ export class UserItem extends Component {
         this.userName.string = Utils.truncation(owner,14);
         Color.fromHEX(this.userColor.color, config.colors[id]);
         this.userRate.string = (win_rate * 100).toFixed(2).toString();
-        this.userAmount.string = formatNearAmount(bet);
+        this.userAmount.string = nearAPI.formatNearAmount(bet);
         this.symbol.string = config.symbol;
     }
 }

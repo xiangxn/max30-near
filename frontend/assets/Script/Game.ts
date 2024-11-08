@@ -12,7 +12,7 @@ import BurstButton from './BurstButton';
 import { UserList } from './UserList';
 import { Bet } from './Bet';
 import Utils from './Utils';
-const { Wallet, formatNearAmount, createHash } = nearAPI;
+// const { Wallet, formatNearAmount, createHash } = nearAPI;
 
 
 
@@ -97,7 +97,7 @@ export class Game extends Component {
         }, this);
 
         this.loginNode.getComponent(BurstButton).setCallback(this.login, this);
-        this.wallet = new Wallet({ networkId: Config.NetworkId, createAccessKeyFor: Config.gameContract });
+        this.wallet = new nearAPI.Wallet({ networkId: Config.NetworkId, createAccessKeyFor: Config.gameContract });
         this.betBtns.children.forEach((item, index) => {
             item.getComponent(BurstButton).setCallback((tag: string, event: string, ...parms: any[]) => {
                 if (event === "Release") {
@@ -146,7 +146,7 @@ export class Game extends Component {
         if (account) {
             this.wallet.viewAccount(account).then((data) => {
                 console.log("account:", data);
-                this.balance.string = formatNearAmount(data.amount, 4);
+                this.balance.string = nearAPI.formatNearAmount(data.amount, 4);
             }).catch((err) => { console.log(err) });
         }
     }
@@ -214,7 +214,7 @@ export class Game extends Component {
             console.log("refreshGame:", result)
             this.globalStatus = result[0];
             let { bet_total } = this.globalStatus;
-            this.totalBet.string = parseFloat(formatNearAmount(bet_total)).toFixed(2);
+            this.totalBet.string = parseFloat(nearAPI.formatNearAmount(bet_total)).toFixed(2);
             let count = result[1].length;
             if (count > 0) {
                 this.players = result[1];
@@ -232,8 +232,8 @@ export class Game extends Component {
     // p1,p2一样返回true,否则返回假
     private checkPlayers(p1, p2): boolean {
         if (p1.length == p2.length) {
-            let h1 = createHash('sha1').update(JSON.stringify(p1)).digest('hex');
-            let h2 = createHash('sha1').update(JSON.stringify(p2)).digest('hex');
+            let h1 = nearAPI.createHash('sha1').update(JSON.stringify(p1)).digest('hex');
+            let h2 = nearAPI.createHash('sha1').update(JSON.stringify(p2)).digest('hex');
             console.log("checkPlayers:", h1, h2)
             return h1 == h2;
         }
@@ -246,7 +246,7 @@ export class Game extends Component {
 
         let bet_total = 0;
         this.players.forEach((player) => {
-            bet_total += parseFloat(formatNearAmount(player.bet));
+            bet_total += parseFloat(nearAPI.formatNearAmount(player.bet));
         });
         this.totalBet.string = bet_total.toFixed(2);
         this.showBetNode();
@@ -298,7 +298,7 @@ export class Game extends Component {
         let win_rate = 0;
         let player = this.players.find((val) => val.owner === this.currentAccount);
         if (player) {
-            bets += parseFloat(formatNearAmount(player.bet))
+            bets += parseFloat(nearAPI.formatNearAmount(player.bet))
             win_rate += player.win_rate;
         }
         this.myBet.show(bets, win_rate, player)

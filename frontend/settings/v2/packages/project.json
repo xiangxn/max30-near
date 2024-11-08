@@ -9,7 +9,9 @@
     }
   },
   "script": {
-    "preserveSymlinks": true
+    "preserveSymlinks": true,
+    "sortingPlugin": [],
+    "loose": false
   },
   "layer": [
     {

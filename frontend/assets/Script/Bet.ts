@@ -3,7 +3,7 @@ const { ccclass, property } = _decorator;
 import config from './config';
 
 import nearAPI from "./near-api-cocos.min.js";
-const { parseNearAmount } = nearAPI;
+// const { parseNearAmount } = nearAPI;
 
 @ccclass('Bet')
 export class Bet extends Component {
@@ -28,7 +28,7 @@ export class Bet extends Component {
 
     public doBet(bet: number, account: string, wallet) {
         console.log("bet:", bet, "account:", account);
-        let amount = parseNearAmount(bet.toString());
+        let amount = nearAPI.parseNearAmount(bet.toString());
         console.log("amount:", amount)
         if (wallet && amount) {
             wallet.viewMethod({
@@ -38,7 +38,7 @@ export class Bet extends Component {
             }).then((exists: boolean) => {
                 console.log("exists:", exists);
                 if (!exists) {
-                    amount = parseNearAmount((bet + 0.01).toString());  // 0.01为存储成本,中在第一次调用时支付
+                    amount = nearAPI.parseNearAmount((bet + 0.01).toString());  // 0.01为存储成本,中在第一次调用时支付
                 }
                 wallet.callMethod({ contractId: config.gameContract, method: "dobet", deposit: amount }).then((result) => {
                     console.log("result:", result);
