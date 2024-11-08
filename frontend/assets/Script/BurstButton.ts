@@ -33,6 +33,10 @@ class Audio {
         this.audioSource.destroy();
     }
 
+    public setVolume(volume: number) {
+        this.audioSource.volume = volume;
+    }
+
     public playRelease() {
         if (this.audioSource && this.release) {
             this.audioSource.playOneShot(this.release, 1);
@@ -95,6 +99,11 @@ export default class BurstButton extends Component {
     private normalScale: Vec2 = v2(1, 1);
     private normalFrame: SpriteFrame | null = null;
     private callback: (tag: string, event: string, ...parms: any[]) => void = () => { };
+
+
+    public setVolume(volume: number) {
+        this.audio.setVolume(volume);
+    }
 
     protected start() {
         this.normalScale.x = this.node.scale.x;

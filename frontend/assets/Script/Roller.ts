@@ -47,6 +47,10 @@ export class Roller extends Component {
 
     }
 
+    public setAudioVolume(volume: number) {
+        this.audioSource.volume = volume;
+    }
+
     public showClock() {
         this.betClock.active = true;
     }

@@ -1,7 +1,9 @@
-import { _decorator, Component, Label, Node, tween, sys } from 'cc';
+import { _decorator, Component, Label, Node, tween, sys, Sprite } from 'cc';
 import { Roller } from './Roller';
 import Config from './config';
 const { ccclass, property } = _decorator;
+
+import { AudioManager } from "./AudioManager";
 
 import { l10n } from 'db://localization-editor/l10n';
 
@@ -53,6 +55,9 @@ export class Game extends Component {
     @property({ type: BurstButton })
     private exitBtn: BurstButton = null;
 
+    @property({ type: BurstButton })
+    private soundBtn: BurstButton = null;
+
     private wallet: any = null;
 
     private players = [];
@@ -78,7 +83,18 @@ export class Game extends Component {
             l10n.changeLanguage(language);
         }
 
-        
+        this.soundBtn.setCallback((tag: string, event: string, ...parms: any[]) => {
+            if (event === "Release") {
+                let sprite = this.soundBtn.getComponent(Sprite);
+                if (sprite.spriteFrame == sprite.spriteAtlas.getSpriteFrame("声音关")) {
+                    sprite.spriteFrame = sprite.spriteAtlas.getSpriteFrame("声音");
+                    AudioManager.unmuteAll();
+                } else {
+                    sprite.spriteFrame = sprite.spriteAtlas.getSpriteFrame("声音关");
+                    AudioManager.muteAll();
+                }
+            }
+        }, this);
 
         this.loginNode.getComponent(BurstButton).setCallback(this.login, this);
         this.wallet = new Wallet({ networkId: Config.NetworkId, createAccessKeyFor: Config.gameContract });
@@ -301,5 +317,9 @@ export class Game extends Component {
                 this.scheduleOnce(this.procWinner, 1);
             }
         });
+    }
+
+    public setRollerVolume(volume: number) {
+        this.roller.setAudioVolume(volume);
     }
 }
