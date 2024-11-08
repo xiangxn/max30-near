@@ -21,3 +21,5 @@ Start the service:
     yarn server
 
 Now you can open http://localhost:3000 with your browser to experience the game.
+
+Online Demo: [http://30max.bitsflea.com]
